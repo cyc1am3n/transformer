@@ -1,4 +1,5 @@
 *.ipynb
 .ipynb_checkpoints
 
-data/fr-en
+data/ORIG
+data/PREP
