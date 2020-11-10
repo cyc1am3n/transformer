@@ -1,5 +1,4 @@
 import os
-import sys
 from typing import Dict, List
 import sentencepiece as spm
 
@@ -17,22 +16,19 @@ class Tokenizer(object):
         self.type = config['type']
 
         self.sp = spm.SentencePieceProcessor()
-        self.load_tokenizer()
+        if os.path.isfile(f"{self.model}.model"):
+            self._load_tokenizer()
+
+    def _load_tokenizer(self) -> None:
+        """Load Sentencepiece tokenizer model"""
+        model_dir = f"{self.model}.model"
+        self.sp.load(model_dir)
 
     def fit_tokenizer(self) -> None:
         """Train and save Sentencepiece tokenizer model"""
         templates = "--input={} --model_prefix={} --vocab_size={} --model_type={}"
         cmd = templates.format(self.data, self.model, self.vocab_size, self.type)
         spm.SentencePieceTrainer.Train(cmd)
-
-    def load_tokenizer(self) -> None:
-        """Load Sentencepiece tokenizer model"""
-        model_dir = f"{self.model}.model"
-        try:
-            self.sp.load(model_dir)
-        except Exception as e:
-            print(e)
-            sys.exit(f"{model_dir} is not existed. use fit_tokenizer first.")
 
     def transform(self, sentence: str) -> List[str]:
         """Tokenize given sentence

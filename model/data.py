@@ -33,7 +33,7 @@ class DataLoader(object):
     def _get_test_data(self):
         test_data = TabularDataset(path=os.path.join(self.config['dir'], self.config['test']),
                                 format='csv',
-                                fields=[('en', EN_TEXT), ('fr', FR_TEXT)])
+                                fields=[('en', self.EN_TEXT), ('fr', self.FR_TEXT)])
         return test_data
 
     def get_train_valid_iter(self, batch_size):
@@ -49,3 +49,4 @@ class DataLoader(object):
         test_iter = BucketIterator(test_data,
             batch_size=batch_size,
             device=self.device)
+        return test_iter
