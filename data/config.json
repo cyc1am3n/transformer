@@ -1,0 +1,22 @@
+{
+    "data": {
+        "dir": "./data/PREP",
+        "train": "train.csv",
+        "valid": "valid.csv",
+        "test": "test.csv"
+    },
+    "spm": {
+        "en": {
+            "input": "./data/PREP/train.fr-en.en",
+            "model": "./data/iwslt17.en",
+            "vocab_size": 16000,
+            "type": "bpe"
+        },
+        "fr": {
+            "input": "./data/PREP/train.fr-en.fr",
+            "model": "./data/iwslt17.fr",
+            "vocab_size": 16000,
+            "type": "bpe"
+        }
+    }
+}
