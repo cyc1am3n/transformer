@@ -6,24 +6,26 @@ from torchtext.data import TabularDataset
 
 class DataLoader(object):
     """DataLoader class"""
-    def __init__(self, config, tokenize_en, tokenize_fr):
-        self.config = config
+    def __init__(self, data_config, model_config, tokenize_en, tokenize_fr):
+        self.data_config = data_config
         self.EN_TEXT = Field(tokenize = tokenize_en,
             batch_first=True,
+            fix_length=model_config['max_len'],
             tokenizer_language="en",
             init_token = '<s>',
             eos_token = '</s>')
         self.FR_TEXT = Field(tokenize = tokenize_fr,
             batch_first=True,
+            fix_length=model_config['max_len'],
             tokenizer_language="fr",
             init_token = '<s>',
             eos_token = '</s>')
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     def _get_train_valid_data(self):
-        train_data, valid_data = TabularDataset.splits(path=self.config['dir'],
-                                             train=self.config['train'],
-                                             validation=self.config['valid'],
+        train_data, valid_data = TabularDataset.splits(path=self.data_config['dir'],
+                                             train=self.data_config['train'],
+                                             validation=self.data_config['valid'],
                                              format='csv',
                                              fields=[('en', self.EN_TEXT), ('fr', self.FR_TEXT)])
         self.EN_TEXT.build_vocab(train_data, valid_data)
@@ -31,7 +33,7 @@ class DataLoader(object):
         return train_data, valid_data
 
     def _get_test_data(self):
-        test_data = TabularDataset(path=os.path.join(self.config['dir'], self.config['test']),
+        test_data = TabularDataset(path=os.path.join(self.data_config['dir'], self.data_config['test']),
                                 format='csv',
                                 fields=[('en', self.EN_TEXT), ('fr', self.FR_TEXT)])
         return test_data
