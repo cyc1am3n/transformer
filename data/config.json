@@ -6,16 +6,15 @@
         "test": "test.csv"
     },
     "spm": {
+        "vocab_size": 16000,
         "en": {
             "input": "./data/PREP/train.fr-en.en",
             "model": "./data/iwslt17.en",
-            "vocab_size": 16000,
             "type": "bpe"
         },
         "fr": {
             "input": "./data/PREP/train.fr-en.fr",
             "model": "./data/iwslt17.fr",
-            "vocab_size": 16000,
             "type": "bpe"
         }
     }
