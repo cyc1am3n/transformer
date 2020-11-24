@@ -49,7 +49,7 @@ class ScaledDotProductAttentionLayer(nn.Module):
         v = self.v_linear(v_input) # N x L x d_v
         scores = torch.matmul(q, k.transpose(1, 2)) / math.sqrt(self.d_k) # N x L x L
         
-        if self.is_mask is not None:
+        if self.is_mask:
             max_len = q_input.shape[1]
             mask = torch.tril(torch.ones(max_len, max_len), diagonal=0).unsqueeze(0) # 1 x L x L
             if torch.cuda.is_available():
